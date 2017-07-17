@@ -8,7 +8,7 @@ VARIABLE_DECL = r'^variable \"([\w_]+)\" {'
 VARIABLE = r'var\.([\w_]+)'
 
 log = logging.getLogger(__name__)
-log.setLevel(level=logging.WARN)
+log.setLevel(level=os.environ.get("LOGLEVEL", logging.INFO))
 loghandler = logging.StreamHandler()
 formatter = logging.Formatter(
     '%(levelname)-4s %(message)s')
@@ -20,10 +20,17 @@ def main():
     """Find all unused variables."""
     parser = argparse.ArgumentParser()
     parser.add_argument('path')
+    parser.add_argument('--quiet', '-q', action='store_true', default=False)
     parser.add_argument('--debug', '-d', action='store_true', default=False)
     args = parser.parse_args()
 
-    print('Finding unused variables...')
+    if args.quiet:
+        log.setLevel(level=logging.WARN)
+
+    if args.debug:
+        log.setLevel(level=logging.DEBUG)
+
+    log.info('Finding unused variables...')
     found = 0
 
     # Walk the module tree

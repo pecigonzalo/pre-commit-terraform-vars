@@ -1,7 +1,7 @@
 - id: terraform-vars
   name: terraform-unused-vars
   description: Find unused variables in Terraform.
-  entry: terraform-unused-vars ./
+  entry: terraform-unused-vars -q ./
   language: python
   always_run: true
   pass_filenames: false
