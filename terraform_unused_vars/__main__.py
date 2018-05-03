@@ -65,7 +65,7 @@ def main():
             for variable in defined_variables:
                 if variable not in variables:
                     log.warn('[%s] Found unused variable: %s',
-                             terraform_file, variable)
+                             path, variable)
                     found = found + 1
 
     log.info('Finished looking for unused variables.')
