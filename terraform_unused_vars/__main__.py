@@ -4,7 +4,7 @@ import logging
 import argparse
 import re
 
-VARIABLE_DECL = r'^variable \"([\w_]+)\" {'
+VARIABLE_DECL = r'^variable\s+\"([\w_]+)\"\s+{'
 VARIABLE = r'var\.([\w_]+)'
 
 log = logging.getLogger(__name__)
