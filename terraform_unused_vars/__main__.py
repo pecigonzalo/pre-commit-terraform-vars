@@ -4,7 +4,7 @@ import logging
 import argparse
 import re
 
-VARIABLE_DECL = r'^variable \"([\w_]+)\" {'
+VARIABLE_DECL = r'^variable\s+\"([\w_]+)\"\s+{'
 VARIABLE = r'var\.([\w_]+)'
 
 log = logging.getLogger(__name__)
@@ -45,7 +45,8 @@ def main():
         log.info('Found files: %s', terraform_files)
 
         if terraform_files:
-            defined_variables = []
+            # Dictionary of variable name => filename where it is defined
+            defined_variables = {}
             variables = []
             for terraform_file in terraform_files:
                 log.info('Looking for variable definitions in %s',
@@ -57,7 +58,7 @@ def main():
                 for line in data:
                     if re.match(VARIABLE_DECL, line):
                         match = re.match(VARIABLE_DECL, line)
-                        defined_variables.append(match.group(1))
+                        defined_variables[match.group(1)] = path
                     elif re.search(VARIABLE, line):
                         match = re.findall(VARIABLE, line)
                         variables.extend(match)
@@ -65,7 +66,7 @@ def main():
             for variable in defined_variables:
                 if variable not in variables:
                     log.warn('[%s] Found unused variable: %s',
-                             terraform_file, variable)
+                             defined_variables[variable], variable)
                     found = found + 1
 
     log.info('Finished looking for unused variables.')
