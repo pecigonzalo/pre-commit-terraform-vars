@@ -1,8 +1,1 @@
-- id: terraform-vars
-  name: terraform-unused-vars
-  description: Find unused variables in Terraform.
-  entry: terraform-unused-vars ./
-  language: python
-  always_run: true
-  pass_filenames: false
-  minimum_pre_commit_version: 0.15.0
+.pre-commit-hooks.yaml
