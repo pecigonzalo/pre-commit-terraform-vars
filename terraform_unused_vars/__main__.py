@@ -60,7 +60,7 @@ def find_unused_vars(file_list):
     '''.format(defined_variables))
     for variable in defined_variables:
         if variable not in variables:
-            log.warn(
+            log.warning(
                 '[%s] Found unused variable: %s',
                 defined_variables[variable], variable
             )
